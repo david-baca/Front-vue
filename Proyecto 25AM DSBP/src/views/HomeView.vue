@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+import Menu from '../components/menu.vue'
+import Contenido from '../components/Contenido.vue';
 </script>
-
 <template>
-  <main>
-    <TheWelcome />
-  </main>
+  <Menu>
+  </Menu>
+  <Contenido>
+  </Contenido>
 </template>

@@ -1,0 +1,11 @@
+<script setup lang="ts">
+import X from '../components/Formulario.vue';
+</script>
+
+<template>
+    <div class="container">
+        <div class="row justify-content-center align-content-center" style="min-height: 100vh;">
+            <X/>
+        </div>
+    </div>
+</template>
