@@ -41,7 +41,7 @@ const trasform = () => {
                 </a>
 
                 
-                <RouterLink to="/home" class="btn-primary btn rounded-1">
+                <RouterLink to="/dashboard" class="btn-primary btn rounded-1">
                     <h6 class="m-0 ps-1 pe-1">Sigiente</h6>
                 </RouterLink>
             </div>
