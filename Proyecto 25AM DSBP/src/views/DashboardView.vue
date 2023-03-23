@@ -1,38 +1,82 @@
 <script setup lang="ts">
-import Contenido from '../components/Contenido.vue';
-const actual = ref();
+import BP from '../components/Servicios/Busq/Puestos.vue';
+import BC from '../components/Servicios/Busq/Clientes.vue';
+import BD from '../components/Servicios/Busq/Departamentos.vue'
+import BE from '../components/Servicios/Busq/Empleados.vue'
+import BF from '../components/Servicios/Busq/Facturas.vue'
+import BR from '../components/Servicios/Busq/Roles.vue'
+import BU from '../components/Servicios/Busq/Usuarios.vue'
 import {ref} from "vue";
+const actual = ref(0);
+const servicio = ref();
+
 const opciones = ref([
-    {nombre:'Empleados'},
-    {nombre:'Clientes'},
-    {nombre:'Departamentos'},
-    {nombre:'Facturas'},
-    {nombre:'Puestos'},
-    {nombre:'Rols'},
-    {nombre:'Usuarios'}
+    {nombre:'Empleados', busqueda:false,Id:false,agregar:false},
+    {nombre:'Clientes', busqueda:false,Id:false,agregar:false},
+    {nombre:'Departamentos', busqueda:false,Id:false,agregar:false},
+    {nombre:'Facturas', busqueda:false,Id:false,agregar:false},
+    {nombre:'Puestos', busqueda:false,Id:false,agregar:false},
+    {nombre:'Rols', busqueda:false,Id:false,agregar:false},
+    {nombre:'Usuarios', busqueda:false,Id:false,agregar:false}
     ]);
 
-const Empleados = () => {
+const Clientes = () => {
+  Clear()
     actual.value = 0
 }
-const Clientes = () => {
+
+const Departamentos = () => {
+  Clear()
     actual.value = 1
 }
-const Departamentos = () => {
+
+const Empleados = () => {
+  Clear()
     actual.value = 2
 }
+
 const Facturas = () => {
+  Clear()
     actual.value = 3
 }
 const Puestos = () => {
+  Clear()
     actual.value = 4
 }
 const Rols = () => {
-    actual.value = 5
+  Clear()
+  actual.value = 5
 }
 const Usuarios = () => {
-    actual.value = 6
+  Clear()
+  actual.value = 6
 }
+
+const Clear = () => {
+  opciones.value = ([
+    {nombre:'Clientes', busqueda:false,Id:false,agregar:false},
+    {nombre:'Departamentos', busqueda:false,Id:false,agregar:false},
+    {nombre:'Empleados', busqueda:false,Id:false,agregar:false},
+    {nombre:'Facturas', busqueda:false,Id:false,agregar:false},
+    {nombre:'Puestos', busqueda:false,Id:false,agregar:false},
+    {nombre:'Rols', busqueda:false,Id:false,agregar:false},
+    {nombre:'Usuarios', busqueda:false,Id:false,agregar:false}
+    ]);
+}
+
+const Buscar = () => {
+  Clear()
+  opciones.value[actual.value].busqueda = true
+}
+
+const Buscar_ID = () => {
+  Clear()
+  servicio.value = 1
+}  
+const Agregar = () => {
+  Clear()
+  servicio.value = 2
+}  
 </script>
 
 <template>
@@ -63,12 +107,6 @@ const Usuarios = () => {
               </h6>
               <ul class="nav flex-column mb-2">
                 <li class="nav-item">
-                  <a @click="Empleados()" class="nav-link">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text align-text-bottom" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                    Empleados
-                  </a>
-                </li>
-                <li class="nav-item">
                   <a @click="Clientes()" class="nav-link">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text align-text-bottom" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
                     Clientes
@@ -78,6 +116,12 @@ const Usuarios = () => {
                   <a @click="Departamentos()" class="nav-link">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text align-text-bottom" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
                     Departamentos
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a @click="Empleados()" class="nav-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text align-text-bottom" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    Empleados
                   </a>
                 </li>
                 <li class="nav-item">
@@ -112,13 +156,20 @@ const Usuarios = () => {
                 <h1 class="h2"> {{opciones[actual].nombre}}</h1>
                 <div class="btn-toolbar mb-2 mb-md-0">
                     <div class="btn-group me-2">
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Buscar</button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Buscar por ID
+                        <button @click="Buscar()" type="button" class="btn btn-sm btn-outline-secondary">Buscar</button>
+                        <button @click="Buscar_ID()" type="button" class="btn btn-sm btn-outline-secondary">Buscar por ID
                         </button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Agregar</button>
+                        <button @click="Agregar()" type="button" class="btn btn-sm btn-outline-secondary">Agregar</button>
                     </div>
                 </div>
             </div>
+            <BC v-if="opciones[0].busqueda"></BC>
+            <BD v-if="opciones[1].busqueda"></BD>
+            <BE v-if="opciones[2].busqueda"></BE>
+            <BF v-if="opciones[3].busqueda"></BF>
+            <BP v-if="opciones[4].busqueda"></BP>
+            <BR v-if="opciones[5].busqueda"></BR>
+            <BU v-if="opciones[6].busqueda"></BU>
           </div>
         </div>
     </div>
