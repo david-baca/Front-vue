@@ -1,4 +1,8 @@
 <template>
+  <div v-if="confirm" class="alert alert-success d-flex align-items-center" role="alert">
+      <h5 class="m-0 d-inline-block"> Se creo el componente correctamente en la base de datos</h5>
+      <button @click="this.confirm = false" class="btn btn-light m-2">OK</button>
+    </div>
     <form v-on:submit.prevent="agregarRegistro">
             <div class="form-group">
               <label for="">Nombre:</label>

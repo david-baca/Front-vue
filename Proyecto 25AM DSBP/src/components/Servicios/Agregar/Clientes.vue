@@ -26,7 +26,7 @@
       <div class="form-group">
         <label for="">Telefono</label>
         <input
-          type="text"
+          type="tel"
           class="form-control"
           v-model="Cliente.telefono"
           placeholder="Telefono"

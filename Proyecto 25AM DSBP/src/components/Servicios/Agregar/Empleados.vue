@@ -19,7 +19,7 @@
                 type="text"
                 class="form-control"
                 v-model="Empleado.apellidos"
-                placeholder="Nombre"
+                placeholder="Apellidos"
               />
             </div>
             <div class="form-group">
@@ -28,7 +28,7 @@
                 type="text"
                 class="form-control"
                 v-model="Empleado.direccion"
-                placeholder="Nombre"
+                placeholder="Direccion"
               />
             </div>
             <div class="form-group">
@@ -37,26 +37,26 @@
                 type="text"
                 class="form-control"
                 v-model="Empleado.ciudad"
-                placeholder="Nombre"
+                placeholder="Ciudad"
               />
             </div>
             <div class="form-group">
-              <label for="">codigo Puesto:</label>
+              <label for="">Codigo Puesto:</label>
               <input
                 type="number"
                 class="form-control"
                 v-model="Empleado.Fk_puesto"
-                placeholder="Nombre"
+                placeholder="Codigo Puesto"
               />
             </div>
 
             <div class="form-group">
-              <label for="">codigo Departamento:</label>
+              <label for="">Codigo Departamento:</label>
               <input
                 type="number"
                 class="form-control"
                 v-model="Empleado.Fk_departamento"
-                placeholder="Nombre"
+                placeholder="Codigo Departamento"
               />
             </div>
   
@@ -77,6 +77,7 @@
   export default {
     data() {
       return {
+        confirm: false,
         Empleado: {},
       };
     },
@@ -98,7 +99,8 @@
           .post("https://localhost:7294/Empleado", datosEnviar)
           .then((result) => {
             console.log(result);
-            window.location.href = "/Dashboard";
+            this.confirm = true
+            // window.location.href = "/Dashboard";
           });
       },
     },

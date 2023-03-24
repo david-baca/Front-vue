@@ -108,6 +108,7 @@
               |<button @click="this.editar = false" class="btn btn-danger"
                 >Cancelar</button>|
             </div>
+
           </form>
     </div>
 </template>

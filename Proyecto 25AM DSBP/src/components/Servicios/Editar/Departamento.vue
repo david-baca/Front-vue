@@ -9,7 +9,7 @@
     export default {
       props: {
         initialMessage: {
-          type: String,
+          type: Object,
           required: true
         }
       },
@@ -18,6 +18,7 @@
           message: this.initialMessage
         }
       },
+      
       methods: {
         changeMessage() {
           this.message = 'Nuevo mensaje'

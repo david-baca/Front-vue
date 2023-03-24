@@ -1,7 +1,6 @@
 @import './base.css';
-
-.imagen{
-    background-image: url(../../public/UPQROO.ico);
+.imagen {
+    background-image: url(../../public/Logo\ UPQROO.ico);
     background-size: auto 100%;
     background-position: center;
     background-repeat: no-repeat;

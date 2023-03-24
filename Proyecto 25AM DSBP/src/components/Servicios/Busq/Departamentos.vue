@@ -1,6 +1,6 @@
 <template>
   <div>
-    <table class="table">
+    <table v-if="Editar==false" class="table">
         <thead>
         <tr>
             <th>pkDepartamento</th>
@@ -13,21 +13,22 @@
             <td>{{ departamento.nombre }}</td>
             <div class="btn-group" role="label" aria-label="">
                 <!-- |<router-link :to="{name:'editar',param:{id:articulo.id}}" class="btn btn-info">Editar</router-link> | -->
-                |<button
-                type="button"
-                v-on:click="borrarCliente(puesto.id)"
-                class="btn btn-danger"
-                >
-                Eliminar</button
-                >|
+                <button type="button"
+                v-on:click="borrarDepartamento(puesto.id)"
+                class="btn btn-danger"> Eliminar</button>
+
+                <button type="button"
+                v-on:click="this.Editar = departamento"
+                class="btn ms-2 btn-warning">
+                Editar</button>
             </div>
         </tr>
         </tbody>
     </table>
-
-    
-    <editable :initial-message="'Mensaje inicial'" @messageChanged="X">
+    <editable :initial-message="Editar" @messageChanged="X"  v-if="Editar">
     </editable>
+
+
   </div>
 </template>
 
@@ -38,7 +39,7 @@ import editable from '../Editar/Departamento.vue'
 export default {
   data() {
     return {
-      
+      Editar: false,
       Departamentos: [],
       
     };
@@ -52,6 +53,7 @@ export default {
   methods: {
     X(item) {
         console.log('Mensaje cambiado:', item)
+        this.Editar = false 
       },
     consultarDepartamentos() {
       axios.get("https://localhost:7294/Departamento").then((result) => {
