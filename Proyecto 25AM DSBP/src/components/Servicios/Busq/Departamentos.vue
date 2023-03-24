@@ -1,4 +1,5 @@
 <template>
+  <div>
     <table class="table">
         <thead>
         <tr>
@@ -23,20 +24,35 @@
         </tr>
         </tbody>
     </table>
+
+    
+    <editable :initial-message="'Mensaje inicial'" @messageChanged="X">
+    </editable>
+  </div>
 </template>
 
 <script>
 import axios from "axios";
+import editable from '../Editar/Departamento.vue'
+
 export default {
   data() {
     return {
+      
       Departamentos: [],
+      
     };
+  },
+  components: {
+    editable
   },
   created: function () {
     this.consultarDepartamentos();
   },
   methods: {
+    X(item) {
+        console.log('Mensaje cambiado:', item)
+      },
     consultarDepartamentos() {
       axios.get("https://localhost:7294/Departamento").then((result) => {
         console.log(result.data.result);

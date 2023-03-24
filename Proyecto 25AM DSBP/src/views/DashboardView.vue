@@ -6,14 +6,32 @@ import BE from '../components/Servicios/Busq/Empleados.vue'
 import BF from '../components/Servicios/Busq/Facturas.vue'
 import BR from '../components/Servicios/Busq/Roles.vue'
 import BU from '../components/Servicios/Busq/Usuarios.vue'
+
+import CC from '../components/Servicios/Agregar/Clientes.vue'
+import CD from '../components/Servicios/Agregar/Departamentos.vue'
+import CE from '../components/Servicios/Agregar/Empleados.vue'
+import CF from '../components/Servicios/Agregar/Facturas.vue'
+import CP from '../components/Servicios/Agregar/Puestos.vue'
+import CR from '../components/Servicios/Agregar/Roles.vue'
+import CU from '../components/Servicios/Agregar/Usuarios.vue'
+
+import BIP from '../components/Servicios/Busq_ID/Puestos.vue';
+import BIC from '../components/Servicios/Busq_ID/Clientes.vue';
+import BID from '../components/Servicios/Busq_ID/Departamentos.vue'
+import BIE from '../components/Servicios/Busq_ID/Empleados.vue'
+import BIF from '../components/Servicios/Busq_ID/Facturas.vue'
+import BIR from '../components/Servicios/Busq_ID/Roles.vue'
+import BIU from '../components/Servicios/Busq_ID/Usuarios.vue'
+
+
 import {ref} from "vue";
 const actual = ref(0);
 const servicio = ref();
 
 const opciones = ref([
-    {nombre:'Empleados', busqueda:false,Id:false,agregar:false},
     {nombre:'Clientes', busqueda:false,Id:false,agregar:false},
     {nombre:'Departamentos', busqueda:false,Id:false,agregar:false},
+    {nombre:'Empleados', busqueda:false,Id:false,agregar:false},
     {nombre:'Facturas', busqueda:false,Id:false,agregar:false},
     {nombre:'Puestos', busqueda:false,Id:false,agregar:false},
     {nombre:'Rols', busqueda:false,Id:false,agregar:false},
@@ -71,11 +89,11 @@ const Buscar = () => {
 
 const Buscar_ID = () => {
   Clear()
-  servicio.value = 1
+  opciones.value[actual.value].Id = true
 }  
 const Agregar = () => {
   Clear()
-  servicio.value = 2
+  opciones.value[actual.value].agregar = true
 }  
 </script>
 
@@ -170,6 +188,22 @@ const Agregar = () => {
             <BP v-if="opciones[4].busqueda"></BP>
             <BR v-if="opciones[5].busqueda"></BR>
             <BU v-if="opciones[6].busqueda"></BU>
+
+            <CC v-if="opciones[0].agregar"   @mensaje-enviado="mensajeRecibido"></CC>
+            <CD v-if="opciones[1].agregar"></CD>
+            <CE v-if="opciones[2].agregar"></CE>
+            <CF v-if="opciones[3].agregar"></CF>
+            <CP v-if="opciones[4].agregar"></CP>
+            <CR v-if="opciones[5].agregar"></CR>
+            <CU v-if="opciones[6].agregar"></CU>
+
+            <BIC v-if="opciones[0].Id"></BIC>
+            <BID v-if="opciones[1].Id"></BID>
+            <BIE v-if="opciones[2].Id"></BIE>
+            <BIF v-if="opciones[3].Id"></BIF>
+            <BIP v-if="opciones[4].Id"></BIP>
+            <BIR v-if="opciones[5].Id"></BIR>
+            <BIU v-if="opciones[6].Id"></BIU>
           </div>
         </div>
     </div>
