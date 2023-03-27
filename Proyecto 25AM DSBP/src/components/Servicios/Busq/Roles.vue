@@ -1,8 +1,8 @@
 <template>
 <div>
-  <div v-if="confirmacion_borrar" class="alert alert-danger d-flex align-items-center" role="alert">
-      <h5 class="m-0 d-inline-block"> Se elimino Satisfactoriamente</h5>
-      <button @click="this.confirmacion_borrar = false" class="btn btn-light m-2">OK</button>
+  <div v-if="Alerta" class="alert alert-danger d-flex align-items-center" role="alert">
+      <h5 class="m-0 d-inline-block"> {{ Alerta }}</h5>
+      <button @click="this.Alerta = false" class="btn btn-light m-2">OK</button>
     </div>
 
     <div v-if="confirmacion_editar" class="alert alert-success d-flex align-items-center" role="alert">
@@ -56,7 +56,7 @@ export default {
     return {
         Roles: [],
         Editar: false,
-        confirmacion_borrar: false,
+        Alerta: false,
         confirmacion_editar: false,
     };
   },
@@ -87,8 +87,12 @@ export default {
     Borrar(codigo){
     axios.delete("https://localhost:7294/Rol?id="+ codigo.toString())
         .then((result) => {
-          this.consultarRoles()
-          this.confirmacion_borrar = true
+          if(result.data.succeded == false){
+          this.Alerta = result.data.message;
+          }else{
+            this.consultarRoles()
+            this.Alerta = "Se elimino correctamente"
+          }
         });
     },
   },

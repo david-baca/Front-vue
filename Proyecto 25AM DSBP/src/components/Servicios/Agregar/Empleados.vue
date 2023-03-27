@@ -1,5 +1,10 @@
 <template>
 <div>
+  <div v-if="Alerta" class="alert alert-danger d-flex align-items-center" role="alert">
+    <h5 class="m-0 d-inline-block"> {{ Alerta }}</h5>
+    <button @click="this.Alerta = false" class="btn btn-light m-2">OK</button>
+  </div>
+  
   <div>
     <div v-if="confirm" class="alert alert-success d-flex align-items-center" role="alert">
       <h5 class="m-0 d-inline-block"> Se creo el componente correctamente en la base de datos</h5>
@@ -80,6 +85,7 @@
       return {
         confirm: false,
         Empleado: {},
+        Alerta: false
       };
     },
   
@@ -99,8 +105,12 @@
         axios
           .post("https://localhost:7294/Empleado", datosEnviar)
           .then((result) => {
-            this.Empleado = {}
-            this.confirm = true
+            if(result.data.succeded){
+              this.Empleado = {}
+              this.confirm = true
+            }else{
+              this.Alerta = result.data.message
+            }
             // window.location.href = "/Dashboard";
           });
       },

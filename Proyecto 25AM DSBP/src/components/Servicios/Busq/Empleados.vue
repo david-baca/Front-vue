@@ -1,12 +1,12 @@
 <template>
 <div>
-  <div v-if="confirmacion_borrar" class="alert alert-danger d-flex align-items-center" role="alert">
-    <h5 class="m-0 d-inline-block"> Se elimino Satisfactoriamente</h5>
-    <button @click="this.confirmacion_borrar = false" class="btn btn-light m-2">OK</button>
+  <div v-if="Alerta" class="alert alert-danger d-flex align-items-center" role="alert">
+    <h5 class="m-0 d-inline-block">{{ Alerta }}</h5>
+    <button @click="this.Alerta = false" class="btn btn-light m-2">OK</button>
   </div>
 
   <div v-if="confirmacion_editar" class="alert alert-success d-flex align-items-center" role="alert">
-    <h5 class="m-0 d-inline-block"> Se Edito Satisfactoriamente</h5>
+    <h5 class="m-0 d-inline-block"> Se edito satisfactoriamente</h5>
     <button @click="this.confirmacion_editar = false" class="btn btn-light m-2">OK</button>
   </div>
 
@@ -76,7 +76,7 @@ export default {
     return {
       Empleados: [],
       Editar: false,
-      confirmacion_borrar: false,
+      Alerta: false,
       confirmacion_editar: false,
     };
   },
@@ -93,11 +93,18 @@ export default {
       await axios.put("https://localhost:7294/Empleado?id="+ this.Editar.pk.toString(), this.Editar)
         .then((result) => {
           console.log(result);
-          this.Editar = false;
+          if(result.data.succeded){
+            this.Editar = false;
+          }else{
+            this.Alerta = result.data.message
+          }
         }); //solo se actualiza al cambiar el indice de una matriz y como se actualizo siempre es 2
-      this.Empleados = {}//por lo tanto borramos departamentos para que tenga 0 indices y cambie
-      this.confirmacion_editar = true
-      this.consultarEmpleados();
+      if(this.Alerta == false){
+        this.Empleados = {}//por lo tanto borramos departamentos para que tenga 0 indices y cambie
+        this.confirmacion_editar = true
+        this.consultarEmpleados();
+      }
+      
     },
     consultarEmpleados() {
       axios.get("https://localhost:7294/Empleado").then((result) => {
@@ -109,7 +116,7 @@ export default {
     axios.delete("https://localhost:7294/Empleado?id="+ codigo.toString())
         .then((result) => {
           this.consultarEmpleados()
-          this.confirmacion_borrar = true
+          this.Alerta = "Se elimino satisfactoriamente"
         });
     },
   }

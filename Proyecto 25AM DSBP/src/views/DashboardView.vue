@@ -26,7 +26,6 @@ import BIU from '../components/Servicios/Busq_ID/Usuarios.vue'
 
 import {ref} from "vue";
 const actual = ref(0);
-const servicio = ref();
 
 const opciones = ref([
     {nombre:'Clientes', busqueda:false,Id:false,agregar:false},
@@ -191,7 +190,7 @@ const Agregar = () => {
               <BR v-if="opciones[5].busqueda"></BR>
               <BU v-if="opciones[6].busqueda"></BU>
 
-              <CC v-if="opciones[0].agregar"   @mensaje-enviado="mensajeRecibido"></CC>
+              <CC v-if="opciones[0].agregar"></CC>
               <CD v-if="opciones[1].agregar"></CD>
               <CE v-if="opciones[2].agregar"></CE>
               <CF v-if="opciones[3].agregar"></CF>
