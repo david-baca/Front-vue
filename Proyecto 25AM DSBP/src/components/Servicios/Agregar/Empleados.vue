@@ -1,76 +1,77 @@
 <template>
-    <div class="container">
-      <div class="card">
-        <div class="card-header">Agregar empleado</div>
-        <div class="card-body">
-          <form v-on:submit.prevent="agregarRegistro">
-            <div class="form-group">
-              <label for="">Nombre:</label>
-              <input
-                type="text"
-                class="form-control"
-                v-model="Empleado.nombre"
-                placeholder="Nombre"
-              />
-            </div>
-            <div class="form-group">
-              <label for="">Apellidos:</label>
-              <input
-                type="text"
-                class="form-control"
-                v-model="Empleado.apellidos"
-                placeholder="Apellidos"
-              />
-            </div>
-            <div class="form-group">
-              <label for="">Direccion:</label>
-              <input
-                type="text"
-                class="form-control"
-                v-model="Empleado.direccion"
-                placeholder="Direccion"
-              />
-            </div>
-            <div class="form-group">
-              <label for="">Ciudad:</label>
-              <input
-                type="text"
-                class="form-control"
-                v-model="Empleado.ciudad"
-                placeholder="Ciudad"
-              />
-            </div>
-            <div class="form-group">
-              <label for="">Codigo Puesto:</label>
-              <input
-                type="number"
-                class="form-control"
-                v-model="Empleado.Fk_puesto"
-                placeholder="Codigo Puesto"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="">Codigo Departamento:</label>
-              <input
-                type="number"
-                class="form-control"
-                v-model="Empleado.Fk_departamento"
-                placeholder="Codigo Departamento"
-              />
-            </div>
-  
-            <br />
-  
-            <div class="btn-group" role="group">
-              <button type="submit" class="btn btn-success">Agregar</button>
-              
-            </div>
-          </form>
-        </div>
-      </div>
+<div>
+  <div>
+    <div v-if="confirm" class="alert alert-success d-flex align-items-center" role="alert">
+      <h5 class="m-0 d-inline-block"> Se creo el componente correctamente en la base de datos</h5>
+      <button @click="this.confirm = false" class="btn btn-light m-2">OK</button>
     </div>
-  </template>
+  </div>
+  <form v-on:submit.prevent="agregarRegistro">
+    <div class="form-group">
+      <label for="">Nombre:</label>
+      <input
+        type="text"
+        class="form-control"
+        v-model="Empleado.nombre"
+        placeholder="Nombre"
+      />
+    </div>
+    <div class="form-group">
+      <label for="">Apellidos:</label>
+      <input
+        type="text"
+        class="form-control"
+        v-model="Empleado.apellidos"
+        placeholder="Apellidos"
+      />
+    </div>
+    <div class="form-group">
+      <label for="">Direccion:</label>
+      <input
+        type="text"
+        class="form-control"
+        v-model="Empleado.direccion"
+        placeholder="Direccion"
+      />
+    </div>
+    <div class="form-group">
+      <label for="">Ciudad:</label>
+      <input
+        type="text"
+        class="form-control"
+        v-model="Empleado.ciudad"
+        placeholder="Ciudad"
+      />
+    </div>
+    <div class="form-group">
+      <label for="">Codigo Puesto:</label>
+      <input
+        type="number"
+        class="form-control"
+        v-model="Empleado.fkPuesto"
+        placeholder="Codigo Puesto"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="">Codigo Departamento:</label>
+      <input
+        type="number"
+        class="form-control"
+        v-model="Empleado.fkDepartamento"
+        placeholder="Codigo Departamento"
+      />
+    </div>
+
+    <br />
+
+    <div class="btn-group" role="group">
+      <button type="submit" class="btn btn-success">Agregar</button>
+      
+    </div>
+  </form>
+</div>
+</template>
   
   <script>
   import axios from "axios";
@@ -98,7 +99,7 @@
         axios
           .post("https://localhost:7294/Empleado", datosEnviar)
           .then((result) => {
-            console.log(result);
+            this.Empleado = {}
             this.confirm = true
             // window.location.href = "/Dashboard";
           });

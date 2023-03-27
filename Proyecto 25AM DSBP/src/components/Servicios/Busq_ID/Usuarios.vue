@@ -1,65 +1,150 @@
 <template>
-  <div class="conteiner">
-      <div class="row">
-        <div class="col-12">
-          <div class=" form-floating">
-            <input type="number" class="form-control" id="floatingPassword"
-            v-model="Id" @input="consultarUsuario">
-            <label for="floatingPassword">Ingresa el Id a buscar</label>
-          </div>
-        </div>
+<div>
+  <div class="col-12" v-if="Editar == false">
+      <div class=" form-floating p-2">
+        <input type="number" class="form-control" id="floatingPassword"
+        v-model="Id" @input="consultar">
+        <label for="floatingPassword">Ingresa el Id a buscar</label>
       </div>
     </div>
-    <table v-if="usuario" class="table">
-        <thead>
+
+    <div v-if="confirmacion_borrar" class="alert alert-danger d-flex align-items-center" role="alert">
+      <h5 class="m-0 d-inline-block"> Se elimino Satisfactoriamente</h5>
+      <button @click="this.confirmacion_borrar = false" class="btn btn-light m-2">OK</button>
+    </div>
+
+    <div v-if="confirmacion_editar" class="alert alert-success d-flex align-items-center" role="alert">
+      <h5 class="m-0 d-inline-block"> Se Edito Satisfactoriamente</h5>
+      <button @click="this.confirmacion_editar = false" class="btn btn-light m-2">OK</button>
+    </div>
+
+    <table v-if="usuario && Editar==false" class="table">
+      <thead>
         <tr>
-            <th>pkUsuario</th>
-            <th>user</th>
-            <th>password</th>
-            <th>fechaRegistro</th>
-            <th>fkEmpleado</th>
-            <th>fkRol</th>
+          <th class="border"  colspan="4">
+            <h5 class="m-0" @click="this.empleado=true, this.rol=true">Usario +</h5>
+          </th>
+
+
+
+          <th v-if="empleado" class="border"  colspan="5">
+            <h5 class="m-0" @click="this.mas = true">Empleado +</h5>
+          </th>
+        
+          <th v-if="mas" class="border"  colspan="2">
+            <h5 class="m-0">Puesto</h5>
+          </th>
+
+
+          <th v-if="mas" class="border"  colspan="2">
+            <h5 class="m-0">Departamento</h5>
+          </th>
+
+          <th v-if="rol" class="border"  colspan="2">
+            <h5 class="m-0">Rol</h5>
+          </th>
+        </tr>
+        <tr>
+            <th>Codigo Usuario</th>
+            <th>Nombre</th>
+            <th>Contraseña</th>
+            <th>Fecha de Registro</th>
+            
+            <th v-if="empleado">Codigo</th>
+            <th v-if="empleado">Nombre</th>
+            <th v-if="empleado">Apellidos</th>
+            <th v-if="empleado">Direccion</th>
+            <th v-if="empleado">Ciudad</th>
+
+            <th v-if="mas">Codigo</th>
+            <th v-if="mas">Nombre</th>
+            <th v-if="mas">Codigo</th>
+            <th v-if="mas">Nombre</th>
+
+            <th v-if="rol">Codigo</th>
+            <th v-if="rol">Nombre</th>
+
+            
+            <th>Acciones</th>
         </tr>
         </thead>
         <tbody>
         <tr :key="usuario.pkUsuario">
-            <td>{{ usuario.pkUsuario }}</td>
-            <td>{{ usuario.user }}</td>
-            <td>{{ usuario.password }}</td>
-            <td>{{ usuario.fechaRegistro }}</td>
-            <td>{{ usuario.fkEmpleado }}</td>
-            <td>{{ usuario.fkRol }}</td>
+            <mapeador :mapear_objeto = usuario></mapeador>
+            <mapeador v-if="empleado" :mapear_objeto = usuario.empleado></mapeador>
+            <mapeador v-if="mas"  :mapear_objeto = usuario.empleado.puesto></mapeador>
+            <mapeador v-if="mas" :mapear_objeto = usuario.empleado.departamento></mapeador>
+            <mapeador v-if="rol" :mapear_objeto = usuario.rol></mapeador>
             <div class="btn-group" role="label" aria-label="">
                 <!-- |<router-link :to="{name:'editar',param:{id:articulo.id}}" class="btn btn-info">Editar</router-link> | -->
-                |<button
-                type="button"
-                v-on:click="borrarCliente(puesto.id)"
-                class="btn btn-danger"
-                >
-                Eliminar</button
-                >|
+                <button @click="Borrar(usuario.pk)"
+                class="btn btn-danger"> Eliminar</button>
+
+                <button type="button"
+                v-on:click="this.Editar = {...usuario}"
+                class="btn ms-2 btn-warning">
+                Editar</button>
             </div>
         </tr>
         </tbody>
     </table>
+
+    <div v-if="Editar" class="shadow-lg p-3 mb-5 rounded-3">
+      <editable :objeto_editar="Editar">
+      </editable>
+    <div class=" row justify-content-end m-0 p-4">
+        <button class="me-3 col-auto btn btn-danger" @click="this.Editar=false">Cancelar</button>
+        <button class=" col-auto btn btn-success" @click="Guardar()">Guardar</button>
+      </div>
+      {{ Editar }}
+    </div>
+</div>
 </template>
 
 <script>
 import axios from "axios";
+import mapeador from '../../td_objeto.vue'
+import editable from '../Editar/Form_edit.vue'
+
 export default {
   data() {
     return {
       Id: 0,
       usuario: false,
+      empleado:false,
+      rol:false,
+      mas: false,
+      Editar: false,
+      confirmacion_borrar: false,
+      confirmacion_editar: false,
     };
   },
+  components: {
+    mapeador,
+    editable
+  },
   methods: {
-    consultarUsuario() {
+    consultar() {
       axios.get("https://localhost:7294/Usuario/"+this.Id.toString()).then((result) => {
         console.log(result.data.result);
         this.usuario = result.data.value.result;
       });
+    },
+  async Guardar(){
+      await axios.put("https://localhost:7294/Usuario?id="+ this.Editar.pk.toString(), this.Editar)
+        .then((result) => {
+          this.Editar = false;
+        }); //solo se actualiza al cambiar el indice de una matriz y como se actualizo siempre es 2
+      this.usuario = {}//por lo tanto borramos departamentos para que tenga 0 indices y cambie
+      this.confirmacion_editar = true
+      this.consultar();
+    },Borrar(codigo){
+    axios.delete("https://localhost:7294/Usuario?id="+ codigo.toString())
+        .then((result) => {
+          this.consultar()
+          this.confirmacion_borrar = true
+        });
     }
-  },
+  }
 };
 </script>

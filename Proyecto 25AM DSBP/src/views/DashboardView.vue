@@ -181,29 +181,33 @@ const Agregar = () => {
                     </div>
                 </div>
             </div>
-            <BC v-if="opciones[0].busqueda"></BC>
-            <BD v-if="opciones[1].busqueda"></BD>
-            <BE v-if="opciones[2].busqueda"></BE>
-            <BF v-if="opciones[3].busqueda"></BF>
-            <BP v-if="opciones[4].busqueda"></BP>
-            <BR v-if="opciones[5].busqueda"></BR>
-            <BU v-if="opciones[6].busqueda"></BU>
 
-            <CC v-if="opciones[0].agregar"   @mensaje-enviado="mensajeRecibido"></CC>
-            <CD v-if="opciones[1].agregar"></CD>
-            <CE v-if="opciones[2].agregar"></CE>
-            <CF v-if="opciones[3].agregar"></CF>
-            <CP v-if="opciones[4].agregar"></CP>
-            <CR v-if="opciones[5].agregar"></CR>
-            <CU v-if="opciones[6].agregar"></CU>
+            <div class="contenedor">
+              <BC v-if="opciones[0].busqueda"></BC>
+              <BD v-if="opciones[1].busqueda"></BD>
+              <BE v-if="opciones[2].busqueda"></BE>
+              <BF v-if="opciones[3].busqueda"></BF>
+              <BP v-if="opciones[4].busqueda"></BP>
+              <BR v-if="opciones[5].busqueda"></BR>
+              <BU v-if="opciones[6].busqueda"></BU>
 
-            <BIC v-if="opciones[0].Id"></BIC>
-            <BID v-if="opciones[1].Id"></BID>
-            <BIE v-if="opciones[2].Id"></BIE>
-            <BIF v-if="opciones[3].Id"></BIF>
-            <BIP v-if="opciones[4].Id"></BIP>
-            <BIR v-if="opciones[5].Id"></BIR>
-            <BIU v-if="opciones[6].Id"></BIU>
+              <CC v-if="opciones[0].agregar"   @mensaje-enviado="mensajeRecibido"></CC>
+              <CD v-if="opciones[1].agregar"></CD>
+              <CE v-if="opciones[2].agregar"></CE>
+              <CF v-if="opciones[3].agregar"></CF>
+              <CP v-if="opciones[4].agregar"></CP>
+              <CR v-if="opciones[5].agregar"></CR>
+              <CU v-if="opciones[6].agregar"></CU>
+
+              <BIC v-if="opciones[0].Id"></BIC>
+              <BID v-if="opciones[1].Id"></BID>
+              <BIE v-if="opciones[2].Id"></BIE>
+              <BIF v-if="opciones[3].Id"></BIF>
+              <BIP v-if="opciones[4].Id"></BIP>
+              <BIR v-if="opciones[5].Id"></BIR>
+              <BIU v-if="opciones[6].Id"></BIU>
+            </div>
+            
           </div>
         </div>
     </div>

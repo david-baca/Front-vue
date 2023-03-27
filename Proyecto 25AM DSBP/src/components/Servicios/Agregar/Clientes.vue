@@ -50,7 +50,7 @@
           placeholder="Direccion"
         />
       </div>
-
+      
       <br />
 
       <div class="btn-group" role="group">
