@@ -67,6 +67,7 @@
 import axios from "axios";
 import mapeador from '../../td_objeto.vue'
 import editable from '../Editar/Form_edit.vue'
+import comandos from "../../../Store/Peticiones"
 
 export default {
   data() {
@@ -74,11 +75,11 @@ export default {
         Facturas: [],
         Editar: false,
         confirmacion_borrar: false,
-        confirmacion_editar: false,
+        confirmacion_editar: false
     };
   },
   created: function () {
-    this.consultarFacturas();
+    this.Consultas();
   },
   components: {
     mapeador,
@@ -86,12 +87,10 @@ export default {
   },
 
   methods: {
-    consultarFacturas() {
-      axios.get("https://localhost:7294/Factura").then((result) => {
-        console.log(result.data.result);
-        this.Facturas = result.data.result;
-      });
-    },async Guardar(){
+    async Consultas(){
+      this.Facturas = await comandos.Consultar("Factura")
+    },
+    async Guardar(){
         await axios.put("https://localhost:7294/Factura?id="+ this.Editar.pk.toString(), this.Editar)
         .then((result) => {
           console.log(result);
@@ -99,12 +98,12 @@ export default {
         }); //solo se actualiza al cambiar el indice de una matriz y como se actualizo siempre es 2
         this.Facturas = {}//por lo tanto borramos departamentos para que tenga 0 indices y cambie
         this.confirmacion_editar = true
-        this.consultarFacturas();
+        this.Consultas();
     },
     Borrar(codigo){
     axios.delete("https://localhost:7294/Factura?id="+ codigo.toString())
         .then((result) => {
-          this.consultarFacturas()
+          this.Consultas()
           this.confirmacion_borrar = true
         });
     },

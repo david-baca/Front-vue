@@ -17,3 +17,12 @@ table{
     max-height: 70vh;
     overflow-x: auto;
 }
+
+.slide-enter-active, .slide-leave-active {
+    transition: 1s;
+  }
+  
+  .slide-enter, .slide-leave-to {
+    transform: translateX(-40%);
+    opacity: 0;
+  }

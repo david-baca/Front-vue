@@ -88,6 +88,15 @@
         v-model="message.fkEmpleado"
         placeholder="Codigo Empleado"
       />
+
+<select v-model="message.fkEmpleado">
+  <option v-for="item in Empleados" v-bind:value="item.pk">
+    {{ item.nombre }}
+  </option>
+</select>
+<span>Seleccionado: {{ message.fkEmpleado }}</span>
+{{ Empleados }}
+
     </div>
     
     <div v-if="message.fkRol != null" class="form-group">
@@ -135,6 +144,9 @@
 </template>
   
   <script>
+
+import comandos from '../../../Store/Peticiones'
+
     export default {
       props: {
         objeto_editar: {
@@ -145,8 +157,19 @@
       data() {
         return {
           message: this.objeto_editar,
-          objeto: ''
+          objeto: '',
+          Puestos: false,
+          Departamentos: false,
+          Clientes: false,
+          Empleados: false,
+          Roles: false
         }
+      },async Consultas(){
+        this.Puestos = await comandos.Consultar("Puestos")
+        this.Departamentos = await comandos.Consultar("Departamentos")
+        this.Clientes = await comandos.Consultar("Clientes")
+        this.Empleados = await comandos.Consultar("Empleados")
+        this.Roles = await comandos.Consultar("Roles")
       },
     }
   </script>
