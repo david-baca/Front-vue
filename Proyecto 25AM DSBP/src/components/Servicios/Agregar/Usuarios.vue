@@ -13,49 +13,11 @@
     </div>
   </div>
   
-  <form v-on:submit.prevent="agregarRegistro">
-    <div class="form-group">
-      <label for="">Usuario:</label>
-      <input
-        type="text"
-        class="form-control"
-        v-model="Usuario.user"
-        placeholder="Usuario"
-      />
-    </div>
-    <div class="form-group">
-      <label for="">Contraseña:</label>
-      <input
-        type="text"
-        class="form-control"
-        v-model="Usuario.password"
-        placeholder="contraseña"
-      />
-    </div>
-    <div class="form-group">
-      <label for="">Codigo Empleado</label>
-      <input
-        type="number"
-        class="form-control"
-        v-model="Usuario.fkEmpleado"
-        placeholder="Codigo Empleado"
-      />
-    </div>
-    <div class="form-group">
-      <label for="">Codigo Rol</label>
-      <input
-        type="number"
-        class="form-control"
-        v-model="Usuario.fkRol"
-        placeholder="Codigo Rol"
-      />
-    </div>
-
-    <br />
-
-    <div class="btn-group" role="group">
-      <button type="submit" class="btn btn-success">Agregar</button>
-      
+  <form v-on:submit.prevent="agregarRegistro" class="p-2">
+    <editable :objeto_editar="Usuario">
+    </editable>
+    <div class=" row justify-content-end m-0">
+      <button type="submit" class="btn btn-success">Guardar</button>
     </div>
   </form>
   </div>
@@ -63,28 +25,30 @@
   
   <script>
   import axios from "axios";
+  import editable from '../Editar/Form_edit.vue'
+  
   export default {
     data() {
       return {
-        Usuario: {},
+        Usuario: {
+          user : "",
+          password : "",
+          fkEmpleado: "",
+          fkRol : ""
+        },
         confirm: false,
         Alerta: false
       };
+    },
+    components: {
+      editable
     },
   
     methods: {
       agregarRegistro() {
         console.log(this.Usuario);
-  
-        var datosEnviar = {
-            user : this.Usuario.user,
-            password : this.Usuario.password,
-            fkEmpleado: this.Usuario.fkEmpleado,
-            fkRol : this.Usuario.fkRol
-        };
-  
         axios
-          .post("https://localhost:7294/Usuario", datosEnviar)
+          .post("https://localhost:7294/Usuario", this.Usuario)
           .then((result) => {
             if(result.data.succeded){
               this.Usuario = {}
@@ -92,7 +56,6 @@
             }else{
               this.Alerta = result.data.message
             }
-            
           });
       },
     },

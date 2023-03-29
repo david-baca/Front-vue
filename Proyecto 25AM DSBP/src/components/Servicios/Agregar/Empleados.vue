@@ -11,68 +11,11 @@
       <button @click="this.confirm = false" class="btn btn-light m-2">OK</button>
     </div>
   </div>
-  <form v-on:submit.prevent="agregarRegistro">
-    <div class="form-group">
-      <label for="">Nombre:</label>
-      <input
-        type="text"
-        class="form-control"
-        v-model="Empleado.nombre"
-        placeholder="Nombre"
-      />
-    </div>
-    <div class="form-group">
-      <label for="">Apellidos:</label>
-      <input
-        type="text"
-        class="form-control"
-        v-model="Empleado.apellidos"
-        placeholder="Apellidos"
-      />
-    </div>
-    <div class="form-group">
-      <label for="">Direccion:</label>
-      <input
-        type="text"
-        class="form-control"
-        v-model="Empleado.direccion"
-        placeholder="Direccion"
-      />
-    </div>
-    <div class="form-group">
-      <label for="">Ciudad:</label>
-      <input
-        type="text"
-        class="form-control"
-        v-model="Empleado.ciudad"
-        placeholder="Ciudad"
-      />
-    </div>
-    <div class="form-group">
-      <label for="">Codigo Puesto:</label>
-      <input
-        type="number"
-        class="form-control"
-        v-model="Empleado.fkPuesto"
-        placeholder="Codigo Puesto"
-      />
-    </div>
-
-    <div class="form-group">
-      <label for="">Codigo Departamento:</label>
-      <input
-        type="number"
-        class="form-control"
-        v-model="Empleado.fkDepartamento"
-        placeholder="Codigo Departamento"
-      />
-    </div>
-
-    <br />
-
-    <div class="btn-group" role="group">
-      <button type="submit" class="btn btn-success">Agregar</button>
-      
+  <form v-on:submit.prevent="agregarRegistro" class="p-2">
+    <editable :objeto_editar="Empleado">
+    </editable>
+    <div class=" row justify-content-end m-0">
+      <button type="submit" class="btn btn-success">Guardar</button>
     </div>
   </form>
 </div>
@@ -80,30 +23,32 @@
   
   <script>
   import axios from "axios";
+  import editable from '../Editar/Form_edit.vue'
+
   export default {
     data() {
       return {
         confirm: false,
-        Empleado: {},
+        Empleado: {
+          nombre: "",
+          apellidos: "",
+          direccion: "",
+          ciudad: "",
+          fkPuesto: "",
+          fkDepartamento: ""
+        },
         Alerta: false
       };
     },
-  
+    components: {
+      editable
+    },
     methods: {
       agregarRegistro() {
         console.log(this.Empleado);
   
-        var datosEnviar = {
-            nombre: this.Empleado.nombre,
-            apellidos: this.Empleado.apellidos,
-            direccion: this.Empleado.direccion,
-            ciudad: this.Empleado.ciudad,
-            fkPuesto: this.Empleado.fkPuesto,
-            fkDepartamento: this.Empleado.fkDepartamento
-        };
-  
         axios
-          .post("https://localhost:7294/Empleado", datosEnviar)
+          .post("https://localhost:7294/Empleado", this.Empleado)
           .then((result) => {
             if(result.data.succeded){
               this.Empleado = {}

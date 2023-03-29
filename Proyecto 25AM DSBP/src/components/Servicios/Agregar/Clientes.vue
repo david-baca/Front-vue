@@ -5,53 +5,9 @@
       <button @click="this.confirm = false" class="btn btn-light m-2">OK</button>
     </div>
     <form v-on:submit.prevent="agregarRegistro">
-      <div class="form-group">
-        <label for="">Nombre:</label>
-        <input
-          type="text"
-          class="form-control"
-          v-model="Cliente.nombre"
-          placeholder="Nombre"
-        />
-      </div>
-      <div class="form-group">
-        <label for="">Apellidos:</label>
-        <input
-          type="text"
-          class="form-control"
-          v-model="Cliente.apellidos"
-          placeholder="Apellidos"
-        />
-      </div>
-      <div class="form-group">
-        <label for="">Telefono</label>
-        <input
-          type="tel"
-          class="form-control"
-          v-model="Cliente.telefono"
-          placeholder="Telefono"
-        />
-      </div>
-      <div class="form-group">
-        <label for="">Correo</label>
-        <input
-          type="email"
-          class="form-control"
-          v-model="Cliente.email"
-          placeholder="Correo"
-        />
-      </div>
-      <div class="form-group">
-        <label for="">Direccion</label>
-        <input
-          type="text"
-          class="form-control"
-          v-model="Cliente.direccion"
-          placeholder="Direccion"
-        />
-      </div>
       
-      <br />
+      <editable :objeto_editar="Cliente">
+    </editable>
 
       <div class="btn-group" role="group">
         <button type="submit" class="btn btn-success">Agregar</button>
@@ -63,12 +19,23 @@
   
   <script>
   import axios from "axios";
+  import editable from '../Editar/Form_edit.vue'
+
   export default {
     data() {
       return {
         confirm: false,
-        Cliente: {},
+        Cliente: {
+          nombre : "",
+          apellidos : "",
+          telefono : "",
+          email : "",
+          direccion : ""
+        },
       };
+    },
+    components: {
+    editable
     },
   
     methods: {
