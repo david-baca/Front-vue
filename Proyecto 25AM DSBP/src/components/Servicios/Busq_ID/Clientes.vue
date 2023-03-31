@@ -18,7 +18,7 @@
       <button @click="this.confirmacion_editar = false" class="btn btn-light m-2">OK</button>
     </div>
 
-    <table v-if="cliente && Editar==false" class="table">
+    <table v-if="Editar==false" class="table">
         <thead>
         <tr>
             <th>Codigo Cliente</th>
@@ -31,30 +31,33 @@
         </tr>
         </thead>
         <tbody>
-        <tr :key="cliente.pkCliente">
-            <mapeador :mapear_objeto = cliente></mapeador>
-            <div class="btn-group" role="label" aria-label="">
+        <tr v-for="(cliente, index) in Clientes" :key="cliente.pkCliente">
+          <td v-if="index+1 == Id"> {{ index + 1 }} </td>
+            <mapeador v-if="index+1 == Id" :mapear_objeto = cliente></mapeador>
+            <div v-if="index+1 == Id" class="btn-group" role="label" aria-label="">
                 <!-- |<router-link :to="{name:'editar',param:{id:articulo.id}}" class="btn btn-info">Editar</router-link> | -->
                 <button @click="Borrar(cliente.pk)"
                 class="btn btn-danger"> Eliminar</button>
-
+  
                 <button type="button"
                 v-on:click="this.Editar = {...cliente}"
                 class="btn ms-2 btn-warning">
                 Editar</button>
+  
             </div>
         </tr>
         </tbody>
     </table>
-
-    <div v-if="Editar" class="shadow-lg p-3 mb-5 rounded-3">
+    <form v-if="Editar" v-on:submit.prevent="Guardar" class="shadow-lg p-3 mb-5 rounded-3">
+  
       <editable :objeto_editar="Editar">
       </editable>
     <div class=" row justify-content-end m-0 p-4">
         <button class="me-3 col-auto btn btn-danger" @click="this.Editar=false">Cancelar</button>
-        <button class=" col-auto btn btn-success" @click = "Guardar()">Guardar</button>
+        <button class=" col-auto btn btn-success" type="submit">Guardar</button>
       </div>
-    </div>
+  
+      </form>
 </div>
 </template>
 
@@ -67,11 +70,14 @@ export default {
   data() {
     return {
       Id: 0,
-      cliente: false,
+      Clientes: [],
       Editar: false,
       confirmacion_borrar: false,
       confirmacion_editar: false,
     };
+  },
+  created: function () {
+      this.consultar();
   },
   components: {
     mapeador,
@@ -79,8 +85,8 @@ export default {
   },
   methods: {
     consultar() {
-      axios.get("https://localhost:7294/clientes/"+this.Id.toString()).then((result) => {
-        this.cliente = result.data.value.result;
+      axios.get("https://localhost:7294/clientes/").then((result) => {
+        this.Clientes = result.data.result;
       });
     },async Guardar(){
       await axios.put("https://localhost:7294/clientes?id="+ this.Editar.pk.toString(), this.Editar)

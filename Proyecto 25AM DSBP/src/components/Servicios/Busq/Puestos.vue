@@ -19,7 +19,8 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="puesto in Puestos" :key="puesto.id">
+        <tr v-for="(puesto,index) in Puestos" :key="puesto.id">
+          <td>{{ index+1 }}</td>
             <mapeador :mapear_objeto = puesto></mapeador>
             <div class="btn-group" role="label" aria-label="">
                 <!-- |<router-link :to="{name:'editar',param:{id:articulo.id}}" class="btn btn-info">Editar</router-link> | -->

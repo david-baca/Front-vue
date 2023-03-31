@@ -19,7 +19,8 @@
       </tr>
       </thead>
       <tbody>
-      <tr v-for="rol in Roles" :key="rol.pkRol">
+      <tr v-for="(rol,index) in Roles" :key="rol.pkRol">
+        <td>{{ index+1 }}</td>
           <mapeador :mapear_objeto = rol></mapeador>
           <div class="btn-group" role="label" aria-label="">
               <!-- |<router-link :to="{name:'editar',param:{id:articulo.id}}" class="btn btn-info">Editar</router-link> | -->

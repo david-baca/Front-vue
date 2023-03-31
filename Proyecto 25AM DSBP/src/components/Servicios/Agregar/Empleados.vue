@@ -54,6 +54,14 @@
               this.Empleado = {}
               this.confirm = true
             }else{
+              this.Empleado = {
+                                nombre: "",
+                                apellidos: "",
+                                direccion: "",
+                                ciudad: "",
+                                fkPuesto: "",
+                                fkDepartamento: ""
+                              }
               this.Alerta = result.data.message
             }
             // window.location.href = "/Dashboard";

@@ -23,7 +23,8 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="cliente in Clientes" :key="cliente.pkCliente">
+        <tr v-for="(cliente, index) in Clientes" :key="cliente.pkCliente">
+          <td> {{ index + 1 }} </td>
             <mapeador :mapear_objeto = cliente></mapeador>
             <div class="btn-group" role="label" aria-label="">
                 <!-- |<router-link :to="{name:'editar',param:{id:articulo.id}}" class="btn btn-info">Editar</router-link> | -->

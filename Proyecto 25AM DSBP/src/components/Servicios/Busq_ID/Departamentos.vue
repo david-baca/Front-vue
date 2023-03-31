@@ -3,33 +3,30 @@
     <div class="col-12" v-if="Editar == false">
       <div class=" form-floating p-2">
         <input type="number" class="form-control" id="floatingPassword"
-        v-model="Id" @input="consultarDepartamento">
+        v-model="Id" @input="consultarDepartamentos">
         <label for="floatingPassword">Ingresa el Id a buscar</label>
       </div>
     </div>
 
-    <div v-if="Alerta" class="alert alert-danger d-flex align-items-center" role="alert">
-      <h5 class="m-0 d-inline-block">{{ Alerta }}</h5>
-      <button @click="this.Alerta = false" class="btn btn-light m-2">OK</button>
-    </div>
-
+    
     <div v-if="confirmacion_editar" class="alert alert-success d-flex align-items-center" role="alert">
       <h5 class="m-0 d-inline-block"> Se Edito Satisfactoriamente</h5>
       <button @click="this.confirmacion_editar = false" class="btn btn-light m-2">OK</button>
     </div>
 
-    <table v-if="departamento && Editar == false" class="table">
+
+    <table v-if="Editar==false" class="table">
         <thead>
         <tr>
             <th>Codigo Departamento</th>
             <th>Nombre</th>
-            <th>Acciones</th>
         </tr>
         </thead>
         <tbody>
-        <tr :key="departamento.id">
-            <mapeador :mapear_objeto = departamento></mapeador>
-            <div class="btn-group" role="label" aria-label="">
+        <tr v-for="(departamento,index) in Departamentos" :key="departamento.id">
+          <th v-if="index+1 == Id">{{ index+1 }}</th>
+          <mapeador v-if="index+1 == Id" :mapear_objeto = departamento></mapeador>
+            <div v-if="index+1 == Id" class="btn-group" role="label" aria-label="">
                 <!-- |<router-link :to="{name:'editar',param:{id:articulo.id}}" class="btn btn-info">Editar</router-link> | -->
                 <button @click="Borrar(departamento.pk)"
                 class="btn btn-danger"> Eliminar</button>
@@ -42,7 +39,7 @@
         </tr>
         </tbody>
     </table>
-
+    
     <div v-if="Editar" class="shadow-lg p-3 mb-5 rounded-3">
       <editable :objeto_editar="Editar">
       </editable>
@@ -53,6 +50,7 @@
     </div>
   </div>
 </template>
+
 <script>
 import axios from "axios";
 import mapeador from '../../td_objeto.vue'
@@ -61,16 +59,19 @@ import editable from '../Editar/Form_edit.vue'
 export default {
   data() {
     return {
-      departamento: false,
-      Id: 0,
       Editar: false,
+      Departamentos: [],
       Alerta: false,
       confirmacion_editar: false,
+      Id: 0
     };
   },
   components: {
-    mapeador,
-    editable
+    editable,
+    mapeador
+  },
+  created: function () {
+    this.consultarDepartamentos();
   },
   methods: {
     async Guardar(){
@@ -79,26 +80,27 @@ export default {
           console.log(result);
           this.Editar = false;
         }); //solo se actualiza al cambiar el indice de una matriz y como se actualizo siempre es 2
-      this.Departamento = {}//por lo tanto borramos departamentos para que tenga 0 indices y cambie
+      this.Departamentos = {}//por lo tanto borramos departamentos para que tenga 0 indices y cambie
       this.confirmacion_editar = true
-      this.consultarDepartamento();
+      this.consultarDepartamentos();
     },
-    consultarDepartamento() {
-      axios.get("https://localhost:7294/Departamento/"+this.Id.toString()).then((result) => {
-        console.log(result.data.value.result);
-        this.departamento = result.data.value.result;
+    consultarDepartamentos() {
+      axios.get("https://localhost:7294/Departamento").then((result) => {
+        console.log(result.data.result);
+        this.Departamentos = result.data.result;
       });
-    },Borrar(codigo){
+    },
+    Borrar(codigo){
     axios.delete("https://localhost:7294/Departamento?id="+ codigo.toString())
         .then((result) => {
           if(result.data.succeded == false){
           this.Alerta = result.data.message;
           }else{
-            this.consultarDepartamento()
+            this.consultarDepartamentos()
             this.Alerta = "Se elimino correctamente"
           }
         });
-    }
+  }
   },
 };
 </script>

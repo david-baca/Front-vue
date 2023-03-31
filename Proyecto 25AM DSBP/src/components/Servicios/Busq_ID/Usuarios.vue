@@ -7,97 +7,59 @@
         <label for="floatingPassword">Ingresa el Id a buscar</label>
       </div>
     </div>
-
     <div v-if="confirmacion_borrar" class="alert alert-danger d-flex align-items-center" role="alert">
       <h5 class="m-0 d-inline-block"> Se elimino Satisfactoriamente</h5>
       <button @click="this.confirmacion_borrar = false" class="btn btn-light m-2">OK</button>
-    </div>
+  </div>
 
-    <div v-if="confirmacion_editar" class="alert alert-success d-flex align-items-center" role="alert">
+  <div v-if="confirmacion_editar" class="alert alert-success d-flex align-items-center" role="alert">
       <h5 class="m-0 d-inline-block"> Se Edito Satisfactoriamente</h5>
       <button @click="this.confirmacion_editar = false" class="btn btn-light m-2">OK</button>
-    </div>
+  </div>
 
-    <table v-if="usuario && Editar==false" class="table">
-      <thead>
-        <tr>
-          <th class="border"  colspan="4">
-            <h5 class="m-0" @click="this.empleado=true, this.rol=true">Usario +</h5>
-          </th>
+  <table v-if="Editar==false" class="table">
+    <thead>
+      <tr>
+          <th>Codigo Usuario</th>
+          <th>Nombre</th>
+          <th>Contraseña</th>
+          <th>Fecha de Registro</th>
+          <th>Empleado</th>
+          <th>Rol</th>
 
+          
+          <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+    <tr v-for="(usuario,index) in Usuarios" :key="usuario.pkUsuario">
+        <td v-if="index+1==Id">{{ index+1 }}</td>
+        <mapeador v-if="index+1==Id" :mapear_objeto = usuario></mapeador>
+        <td v-if="index+1==Id">{{ usuario.empleado.nombre }}</td>
+        <td v-if="index+1==Id">{{ usuario.rol.nombre }}</td>
+        <div v-if="index+1==Id" class="btn-group" role="label" aria-label="">
+            <!-- |<router-link :to="{name:'editar',param:{id:articulo.id}}" class="btn btn-info">Editar</router-link> | -->
+            <button @click="Borrar(usuario.pk)"
+            class="btn btn-danger"> Eliminar</button>
 
+            <button type="button"
+            v-on:click="this.Editar = {...usuario}"
+            class="btn ms-2 btn-warning">
+            Editar</button>
+        </div>
+    </tr>
+    </tbody>
+  </table>
 
-          <th v-if="empleado" class="border"  colspan="5">
-            <h5 class="m-0" @click="this.mas = true">Empleado +</h5>
-          </th>
-        
-          <th v-if="mas" class="border"  colspan="2">
-            <h5 class="m-0">Puesto</h5>
-          </th>
-
-
-          <th v-if="mas" class="border"  colspan="2">
-            <h5 class="m-0">Departamento</h5>
-          </th>
-
-          <th v-if="rol" class="border"  colspan="2">
-            <h5 class="m-0">Rol</h5>
-          </th>
-        </tr>
-        <tr>
-            <th>Codigo Usuario</th>
-            <th>Nombre</th>
-            <th>Contraseña</th>
-            <th>Fecha de Registro</th>
-            
-            <th v-if="empleado">Codigo</th>
-            <th v-if="empleado">Nombre</th>
-            <th v-if="empleado">Apellidos</th>
-            <th v-if="empleado">Direccion</th>
-            <th v-if="empleado">Ciudad</th>
-
-            <th v-if="mas">Codigo</th>
-            <th v-if="mas">Nombre</th>
-            <th v-if="mas">Codigo</th>
-            <th v-if="mas">Nombre</th>
-
-            <th v-if="rol">Codigo</th>
-            <th v-if="rol">Nombre</th>
-
-            
-            <th>Acciones</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr :key="usuario.pkUsuario">
-            <mapeador :mapear_objeto = usuario></mapeador>
-            <mapeador v-if="empleado" :mapear_objeto = usuario.empleado></mapeador>
-            <mapeador v-if="mas"  :mapear_objeto = usuario.empleado.puesto></mapeador>
-            <mapeador v-if="mas" :mapear_objeto = usuario.empleado.departamento></mapeador>
-            <mapeador v-if="rol" :mapear_objeto = usuario.rol></mapeador>
-            <div class="btn-group" role="label" aria-label="">
-                <!-- |<router-link :to="{name:'editar',param:{id:articulo.id}}" class="btn btn-info">Editar</router-link> | -->
-                <button @click="Borrar(usuario.pk)"
-                class="btn btn-danger"> Eliminar</button>
-
-                <button type="button"
-                v-on:click="this.Editar = {...usuario}"
-                class="btn ms-2 btn-warning">
-                Editar</button>
-            </div>
-        </tr>
-        </tbody>
-    </table>
-
-    <div v-if="Editar" class="shadow-lg p-3 mb-5 rounded-3">
+  <div v-if="Editar" class="shadow-lg p-3 mb-5 rounded-3">
       <editable :objeto_editar="Editar">
       </editable>
-    <div class=" row justify-content-end m-0 p-4">
+      <div class=" row justify-content-end m-0 p-4">
         <button class="me-3 col-auto btn btn-danger" @click="this.Editar=false">Cancelar</button>
-        <button class=" col-auto btn btn-success" @click="Guardar()">Guardar</button>
+        <button class=" col-auto btn btn-success" @click = "Guardar()">Guardar</button>
       </div>
-      {{ Editar }}
-    </div>
+  </div>
 </div>
 </template>
 
@@ -109,42 +71,44 @@ import editable from '../Editar/Form_edit.vue'
 export default {
   data() {
     return {
-      Id: 0,
-      usuario: false,
-      empleado:false,
-      rol:false,
-      mas: false,
-      Editar: false,
-      confirmacion_borrar: false,
-      confirmacion_editar: false,
+        Usuarios: [],
+        Editar: false,
+        confirmacion_borrar: false,
+        confirmacion_editar: false,
+        Id:0
     };
+  },
+  created: function () {
+    this.consultarUsuarios();
   },
   components: {
     mapeador,
     editable
   },
+
   methods: {
-    consultar() {
-      axios.get("https://localhost:7294/Usuario/"+this.Id.toString()).then((result) => {
+    consultarUsuarios() {
+      axios.get("https://localhost:7294/Usuario").then((result) => {
         console.log(result.data.result);
-        this.usuario = result.data.value.result;
+        this.Usuarios = result.data.result;
       });
-    },
-  async Guardar(){
-      await axios.put("https://localhost:7294/Usuario?id="+ this.Editar.pk.toString(), this.Editar)
+    },async Guardar(){
+        await axios.put("https://localhost:7294/Usuario?id="+ this.Editar.pk.toString(), this.Editar)
         .then((result) => {
+          console.log(result);
           this.Editar = false;
         }); //solo se actualiza al cambiar el indice de una matriz y como se actualizo siempre es 2
-      this.usuario = {}//por lo tanto borramos departamentos para que tenga 0 indices y cambie
-      this.confirmacion_editar = true
-      this.consultar();
-    },Borrar(codigo){
+        this.Usuarios = {}//por lo tanto borramos departamentos para que tenga 0 indices y cambie
+        this.confirmacion_editar = true
+        this.consultarUsuarios();
+    },
+    Borrar(codigo){
     axios.delete("https://localhost:7294/Usuario?id="+ codigo.toString())
         .then((result) => {
-          this.consultar()
+          this.consultarUsuarios()
           this.confirmacion_borrar = true
         });
-    }
-  }
+    },
+  },
 };
 </script>

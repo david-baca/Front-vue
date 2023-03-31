@@ -13,48 +13,12 @@
   <table v-if="Editar==false" class="table">
     <thead>
       <tr>
-        <th class="border"  colspan="4">
-          <h5 class="m-0" @click="this.empleado=true, this.rol=true">Usario +</h5>
-        </th>
-
-
-
-        <th v-if="empleado" class="border"  colspan="5">
-          <h5 class="m-0" @click="this.mas = true">Empleado +</h5>
-        </th>
-      
-        <th v-if="mas" class="border"  colspan="2">
-          <h5 class="m-0">Puesto</h5>
-        </th>
-
-
-        <th v-if="mas" class="border"  colspan="2">
-          <h5 class="m-0">Departamento</h5>
-        </th>
-
-        <th v-if="rol" class="border"  colspan="2">
-          <h5 class="m-0">Rol</h5>
-        </th>
-      </tr>
-      <tr>
           <th>Codigo Usuario</th>
           <th>Nombre</th>
           <th>Contraseña</th>
           <th>Fecha de Registro</th>
-          
-          <th v-if="empleado">Codigo</th>
-          <th v-if="empleado">Nombre</th>
-          <th v-if="empleado">Apellidos</th>
-          <th v-if="empleado">Direccion</th>
-          <th v-if="empleado">Ciudad</th>
-
-          <th v-if="mas">Codigo</th>
-          <th v-if="mas">Nombre</th>
-          <th v-if="mas">Codigo</th>
-          <th v-if="mas">Nombre</th>
-
-          <th v-if="rol">Codigo</th>
-          <th v-if="rol">Nombre</th>
+          <th>Empleado</th>
+          <th>Rol</th>
 
           
           <th>Acciones</th>
@@ -62,12 +26,11 @@
     </thead>
     <tbody>
       
-    <tr v-for="usuario in Usuarios" :key="usuario.pkUsuario">
+    <tr v-for="(usuario,index) in Usuarios" :key="usuario.pkUsuario">
+        <td>{{ index+1 }}</td>
         <mapeador :mapear_objeto = usuario></mapeador>
-        <mapeador v-if="empleado" :mapear_objeto = usuario.empleado></mapeador>
-        <mapeador v-if="mas"  :mapear_objeto = usuario.empleado.puesto></mapeador>
-        <mapeador v-if="mas" :mapear_objeto = usuario.empleado.departamento></mapeador>
-        <mapeador v-if="rol" :mapear_objeto = usuario.rol></mapeador>
+        <td>{{ usuario.empleado.nombre }}</td>
+        <td>{{ usuario.rol.nombre }}</td>
         <div class="btn-group" role="label" aria-label="">
             <!-- |<router-link :to="{name:'editar',param:{id:articulo.id}}" class="btn btn-info">Editar</router-link> | -->
             <button @click="Borrar(usuario.pk)"
@@ -102,9 +65,6 @@ export default {
   data() {
     return {
         Usuarios: [],
-        empleado:false,
-        rol:false,
-        mas: false,
         Editar: false,
         confirmacion_borrar: false,
         confirmacion_editar: false,

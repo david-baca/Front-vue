@@ -1,5 +1,4 @@
 <template>
-      <td v-if="objeto.pk">{{ objeto.pk }}</td>
       <td v-if="objeto.nombre">{{ objeto.nombre }}</td>
       <td v-if="objeto.apellidos">{{ objeto.apellidos }}</td>
       <td v-if="objeto.telefono">{{ objeto.telefono }}</td>

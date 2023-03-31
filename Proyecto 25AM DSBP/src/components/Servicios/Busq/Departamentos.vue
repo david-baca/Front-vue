@@ -19,7 +19,8 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="departamento in Departamentos" :key="departamento.id">
+        <tr v-for="(departamento,index) in Departamentos" :key="departamento.id">
+          <th>{{ index+1 }}</th>
           <mapeador :mapear_objeto = departamento></mapeador>
             <div class="btn-group" role="label" aria-label="">
                 <!-- |<router-link :to="{name:'editar',param:{id:articulo.id}}" class="btn btn-info">Editar</router-link> | -->

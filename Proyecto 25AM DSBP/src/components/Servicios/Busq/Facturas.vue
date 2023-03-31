@@ -13,31 +13,19 @@
     <table v-if="Editar==false"  class="table">
       <thead>
         <tr>
-          <th class="border"  colspan="4">
-            <h5 class="m-0">Facturas </h5>
-          </th>
-          <th class="border"  colspan="6">
-            <h5 class="m-0">Clientes</h5>
-          </th>
-        </tr>
-        <tr>
             <th>Codigo Factora</th>
             <th>Razon Social</th>
             <th>Fecha</th>
             <th>RFC</th>
-            <th>Codigo</th>
-            <th>Nombre</th>
-            <th>Apellidos</th>
-            <th>Telefono</th>
-            <th>Email</th>
-            <th>Direccion</th>
+            <th>Cliente</th>
             <th>Acciones</th>
         </tr>
         </thead>
         <tbody>
-        <tr v-for="factura in Facturas" :key="factura.pkFactora">
-            <mapeador :mapear_objeto = factura></mapeador>
-            <mapeador :mapear_objeto = factura.cliente></mapeador>
+        <tr v-for="(factura,index) in Facturas" :key="factura.pkFactora">
+          <th>{{ index+1 }}</th>  
+          <mapeador :mapear_objeto = factura></mapeador>
+            <th>{{ factura.cliente.nombre }}</th>
             <div class="btn-group" role="label" aria-label="">
                 <!-- |<router-link :to="{name:'editar',param:{id:articulo.id}}" class="btn btn-info">Editar</router-link> | -->
                 <button @click="Borrar(factura.pk)"

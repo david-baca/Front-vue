@@ -13,31 +13,19 @@
   <table v-if="Editar==false" class="table">
     <thead>
       <tr>
-        <th class="border"  colspan="5">
-            <h5 class="m-0">Empleado</h5>
-        </th>
-        <th class="border"  colspan="2">
-          <h5 class="m-0">Puesto</h5>
-        </th>
-        <th class="border"  colspan="2">
-          <h5 class="m-0">Departamento</h5>
-        </th>
-      </tr>
-      <tr>
           <th>Codigo</th>
           <th>Nombre</th>
           <th>Apellidos</th>
           <th>Direccion</th>
           <th>Ciudad</th>
-          <th>Codigo</th>
-          <th>Nombre</th>
-          <th>Codigo</th>
-          <th>Nombre</th>
+          <th>Puesto</th>
+          <th>Departamento</th>
           <th>Acciones</th>
       </tr>
       </thead>
       <tbody>
-      <tr v-for="empleado in Empleados" :key="empleado.id">
+      <tr v-for="(empleado, index) in Empleados" :key="empleado.id">
+          <th>{{ index+1 }}</th>
           <mapeador :mapear_objeto = empleado></mapeador>
           <mapeador :mapear_objeto = empleado.puesto></mapeador>
           <mapeador :mapear_objeto = empleado.departamento></mapeador>
